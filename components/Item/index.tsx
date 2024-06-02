@@ -4,12 +4,15 @@ import React from 'react';
 import { CSS } from '@dnd-kit/utilities';
 import clsx from 'clsx';
 
+import { Grip } from 'lucide-react';
+
 type ItemsType = {
   id: UniqueIdentifier;
   title: string;
+  category: string;
 };
 
-const Items = ({ id, title }: ItemsType) => {
+const Items = ({ id, title, category }: ItemsType) => {
   const {
     attributes,
     listeners,
@@ -32,7 +35,7 @@ const Items = ({ id, title }: ItemsType) => {
         transform: CSS.Translate.toString(transform),
       }}
       className={clsx(
-        'px-2 py-4 bg-white shadow-md rounded-xl w-full border border-transparent hover:border-gray-200 cursor-pointer',
+        'px-2 py-4 bg-white  w-full rounded-lg border-2 bg-card text-card-foreground shadow-sm hover:border-gray-300 cursor-pointer',
         isDragging && 'opacity-50',
       )}
     >
@@ -42,8 +45,12 @@ const Items = ({ id, title }: ItemsType) => {
           className="border p-2 text-xs rounded-xl shadow-lg hover:shadow-xl"
           {...listeners}
         >
-          Drag Handle
+          <Grip size={16} />
         </button>
+      </div>
+      
+      <div>
+       <span className={` text-black font-bold`}>{category}</span> {/* Add this line */}
       </div>
     </div>
   );

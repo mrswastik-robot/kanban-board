@@ -3,7 +3,9 @@ import ContainerProps from './container.type';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import clsx from 'clsx';
-import { Button } from '../Button';
+
+import { Button } from '../ui/button';
+import { GripHorizontal, Plus } from 'lucide-react';
 
 const Container = ({
   id,
@@ -40,21 +42,27 @@ const Container = ({
     >
       <div className="flex items-center justify-between">
         <div className="flex flex-col gap-y-1">
-          <h1 className="text-gray-800 text-xl">{title}</h1>
-          <p className="text-gray-400 text-sm">{description}</p>
+          <h1 className="text-gray-800 text-xl font-semibold">{title}</h1>
+          <p className="text-gray-400 text-sm ">{description}</p>
         </div>
-        <button
-          className="border p-2 text-xs rounded-xl shadow-lg hover:shadow-xl"
-          {...listeners}
-        >
-          Drag Handle
-        </button>
-      </div>
 
+        <div className='flex gap-1'>
+          <button
+            className="border p-2 text-xs rounded-xl shadow-lg hover:shadow-xl"
+            {...listeners}
+          >
+            <GripHorizontal size={16} />
+          </button>
+          <Button variant="ghost" className='p-1' onClick={onAddItem}>
+            <Plus size={16} />
+          </Button>
+        </div>
+
+      </div>
+      
       {children}
-      <Button variant="ghost" onClick={onAddItem}>
-        Add Item
-      </Button>
+
+      
     </div>
   );
 };

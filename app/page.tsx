@@ -1,5 +1,6 @@
 "use client"
 
+import Link from 'next/link';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -29,8 +30,30 @@ import { Inter } from 'next/font/google';
 import Container from '@/components/Container';
 import Items from '@/components/Item';
 import Modal from '@/components/Modal';
-import Input from '@/components/Input';
+// import Input from '@/components/Input';
 import { Button } from '@/components/Button';
+
+import { useForm } from 'react-hook-form';
+
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { Input } from '@/components/ui/input';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -40,6 +63,7 @@ type DNDType = {
   items: {
     id: UniqueIdentifier;
     title: string;
+    category: string;
   }[];
 };
 
@@ -52,6 +76,8 @@ export default function Home() {
   const [itemName, setItemName] = useState('');
   const [showAddContainerModal, setShowAddContainerModal] = useState(false);
   const [showAddItemModal, setShowAddItemModal] = useState(false);
+
+  const form = useForm();
 
   const onAddContainer = () => {
     if (!containerName) return;
@@ -71,11 +97,13 @@ export default function Home() {
   const onAddItem = () => {
     if (!itemName) return;
     const id = `item-${uuidv4()}`;
+    const category = form.getValues('email');
     const container = containers.find((item) => item.id === currentContainerId);
     if (!container) return;
     container.items.push({
       id,
       title: itemName,
+      category
     });
     setContainers([...containers]);
     setItemName('');
@@ -350,30 +378,88 @@ export default function Home() {
       >
         <div className="flex flex-col w-full items-start gap-y-4">
           <h1 className="text-gray-800 text-3xl font-bold">Add Container</h1>
-          <Input
-            type="text"
-            placeholder="Container Title"
-            name="containername"
-            value={containerName}
-            onChange={(e) => setContainerName(e.target.value)}
-          />
-          <Button onClick={onAddContainer}>Add container</Button>
+          <Form {...form}>
+            <form
+            onSubmit={form.handleSubmit(onAddContainer)}
+            className='flex flex-col w-full items-start gap-y-4'
+            >
+              <FormField
+              control={form.control}
+              name="containername"
+              render={({ field }) => (
+                <Input
+                  type="text"
+                  className='border p-2 w-full rounded-lg shadow-lg hover:shadow-xl'
+                  placeholder="Container Title"
+                  name="containername"
+                  value={containerName}
+                  onChange={(e) => setContainerName(e.target.value)}
+                />
+              )}
+              />
+
+            <Button type='submit'>Add container</Button>
+
+            </form>
+          </Form>
+          
         </div>
       </Modal>
+
       {/* Add Item Modal */}
       <Modal showModal={showAddItemModal} setShowModal={setShowAddItemModal}>
         <div className="flex flex-col w-full items-start gap-y-4">
           <h1 className="text-gray-800 text-3xl font-bold">Add Item</h1>
-          <Input
-            type="text"
-            placeholder="Item Title"
-            name="itemname"
-            value={itemName}
-            onChange={(e) => setItemName(e.target.value)}
-          />
-          <Button onClick={onAddItem}>Add Item</Button>
+          <Form {...form}>
+            <form
+            onSubmit={form.handleSubmit(onAddItem)}
+            className='flex flex-col w-full items-start gap-y-4'
+            >
+              <FormField
+              control={form.control}
+              name="itemname"
+              render={({ field }) => (
+                <Input
+                  type="text"
+                  className='border p-2 w-full rounded-lg shadow-lg hover:shadow-xl'
+                  placeholder="Item Title"
+                  name="itemname"
+                  value={itemName}
+                  onChange={(e) => setItemName(e.target.value)}
+                />
+              )}
+              />
+
+            <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem className='w-full rounded-lg shadow-lg hover:shadow-xl'>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a category" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="Low">Low</SelectItem>
+                        <SelectItem value="Medium">Medium</SelectItem>
+                        <SelectItem value="High">High</SelectItem>
+                        <SelectItem value="Critical">Critical</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+
+              <Button type='submit'>Add Item</Button>
+            </form>
+          </Form>
         </div>
       </Modal>
+
       <div className="flex items-center justify-between gap-y-2">
         <h1 className="text-gray-800 text-3xl font-bold">Your Kanban</h1>
         <Button onClick={() => setShowAddContainerModal(true)}>
@@ -381,7 +467,7 @@ export default function Home() {
         </Button>
       </div>
       <div className="mt-10">
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-4 gap-4">
           <DndContext
             sensors={sensors}
             collisionDetection={closestCorners}
@@ -403,7 +489,7 @@ export default function Home() {
                   <SortableContext items={container.items.map((i) => i.id)}>
                     <div className="flex items-start flex-col gap-y-4">
                       {container.items.map((i) => (
-                        <Items title={i.title} id={i.id} key={i.id} />
+                        <Items title={i.title} category={i.category} id={i.id} key={i.id} />
                       ))}
                     </div>
                   </SortableContext>
@@ -413,13 +499,13 @@ export default function Home() {
             <DragOverlay adjustScale={false}>
               {/* Drag Overlay For item Item */}
               {activeId && activeId.toString().includes('item') && (
-                <Items id={activeId} title={findItemTitle(activeId)} />
+                <Items id={activeId} title={findItemTitle(activeId)} category={findItemTitle(activeId)} />
               )}
               {/* Drag Overlay For Container */}
               {activeId && activeId.toString().includes('container') && (
                 <Container id={activeId} title={findContainerTitle(activeId)}>
                   {findContainerItems(activeId).map((i) => (
-                    <Items key={i.id} title={i.title} id={i.id} />
+                    <Items key={i.id} title={i.title} id={i.id} category={i.category} />
                   ))}
                 </Container>
               )}

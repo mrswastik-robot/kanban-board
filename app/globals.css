@@ -74,3 +74,29 @@
       @apply bg-background text-foreground;
     }
   }
+
+
+
+  .tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    margin-left: 0.5rem;
+    color: white;
+  }
+  .tag.low {
+    background-color: green;
+  }
+  .tag.medium {
+    background-color: yellow;
+    color: black;
+  }
+  .tag.high {
+    background-color: orange;
+  }
+  .tag.critical {
+    background-color: red;
+  }
+  .tag.pending {
+    background-color: blue;
+  }  
