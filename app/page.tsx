@@ -13,9 +13,10 @@ import
   moveItemWithinContainer, 
   moveItemToDifferentContainer, 
   moveContainer,
-  addItem } 
+  addItem,
+  deleteItem } 
 from '@/store/reducers/containersReducer';
-import { deleteItem, } from '@/store/reducers/itemsReducer';
+// import { deleteItem, } from '@/store/reducers/itemsReducer';
 import EditContainerModal from '@/components/EditContainerModal';
 import EditItemModal from '@/components/EditItemModal';
 
@@ -412,6 +413,7 @@ export default function Home() {
                   key={container.id}
                   setShowEditContainerModal={setShowEditContainerModal}
                   handleEditContainer={handleEditContainer}
+                  handleDeleteContainer={handleDeleteContainer}
                   onAddItem={() => {
                     setShowAddItemModal(true);
                     setCurrentContainerId(container.id);
@@ -428,6 +430,7 @@ export default function Home() {
                             id={i.id} 
                             key={i.id}
                             handleEditItem={handleEditItem}
+                            handleDeleteItem={handleDeleteItem}
                             setShowEditItemModal={setShowEditItemModal} 
                             />
                             {/* <div className="flex items-center gap-2">
@@ -444,13 +447,13 @@ export default function Home() {
             <DragOverlay adjustScale={false}>
               {/* Drag Overlay For item Item */}
               {activeId && activeId.toString().includes('item') && (
-                <Items id={activeId} title={findItemTitle(activeId)} category={findItemTitle(activeId)} setShowEditItemModal={setShowEditItemModal} handleEditItem={handleEditItem} />
+                <Items id={activeId} title={findItemTitle(activeId)} category={findItemTitle(activeId)} setShowEditItemModal={setShowEditItemModal} handleEditItem={handleEditItem} handleDeleteItem={handleAddItem}/>
               )}
               {/* Drag Overlay For Container */}
               {activeId && activeId.toString().includes('container') && (
-                <Container id={activeId} title={findContainerTitle(activeId)} setShowEditContainerModal={setShowEditContainerModal} handleEditContainer={handleEditContainer}>
+                <Container id={activeId} title={findContainerTitle(activeId)} setShowEditContainerModal={setShowEditContainerModal} handleEditContainer={handleEditContainer} handleDeleteContainer={handleDeleteContainer}>
                   {findContainerItems(activeId).map((i) => (
-                    <Items key={i.id} title={i.title} id={i.id} category={i.category} setShowEditItemModal={setShowEditItemModal} handleEditItem={handleEditItem}/>
+                    <Items key={i.id} title={i.title} id={i.id} category={i.category} setShowEditItemModal={setShowEditItemModal} handleEditItem={handleEditItem} handleDeleteItem={handleAddItem}/>
                   ))}
                 </Container>
               )}

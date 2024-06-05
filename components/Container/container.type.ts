@@ -8,4 +8,5 @@ export default interface ContainerProps {
   onAddItem?: () => void;
   setShowEditContainerModal: Dispatch<SetStateAction<boolean>>;
   handleEditContainer: (id: string, title: string) => void;
+  handleDeleteContainer: (id: string) => void;
 }

@@ -5,7 +5,7 @@ import { CSS } from '@dnd-kit/utilities';
 import clsx from 'clsx';
 
 import { Button } from '../ui/button';
-import { GripHorizontal, Plus, Pencil } from 'lucide-react';
+import { GripHorizontal, Plus, Pencil, Trash } from 'lucide-react';
 
 const Container = ({
   id,
@@ -15,6 +15,7 @@ const Container = ({
   onAddItem,
   setShowEditContainerModal,
   handleEditContainer,
+  handleDeleteContainer,
 }: ContainerProps) => {
   const {
     attributes,
@@ -61,6 +62,10 @@ const Container = ({
             setShowEditContainerModal(true);
           }}>
             <Pencil size={16} />
+          </Button>
+
+          <Button variant="ghost" className='p-1' onClick={() => handleDeleteContainer(String(id))}>
+            <Trash size={16} />
           </Button>
 
           <Button variant="ghost" className='p-1' onClick={onAddItem}>
