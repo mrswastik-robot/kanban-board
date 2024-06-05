@@ -36,6 +36,15 @@ const containersSlice = createSlice({
                 container.items.push(action.payload.item);
             }
         },
+        editItem: (state, action: PayloadAction<Item>) => {
+            for (const container of state) {
+                const index = container.items.findIndex((item) => item.id === action.payload.id);
+                if (index !== -1) {
+                    container.items[index] = action.payload;
+                    break;
+                }
+            }
+        },
         moveItemWithinContainer: (state, action: PayloadAction<{ containerId: string; fromIndex: number; toIndex: number }>) => {
             const container = state.find((container) => container.id === action.payload.containerId);
             if (container) {
@@ -63,6 +72,6 @@ const containersSlice = createSlice({
     },
 });
 
-export const { addContainer, editContainer, deleteContainer, addItem, moveItemWithinContainer, moveItemToDifferentContainer, moveContainer, deleteItem } = containersSlice.actions;
+export const { addContainer, editContainer, deleteContainer, addItem,editItem, moveItemWithinContainer, moveItemToDifferentContainer, moveContainer, deleteItem } = containersSlice.actions;
 
 export default containersSlice.reducer;

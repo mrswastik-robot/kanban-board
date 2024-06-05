@@ -8,7 +8,7 @@ import { Button } from '@/components/Button';
 import { Input } from '@/components/ui/input';
 import { Form, FormField, FormItem, FormControl, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { editItem } from '@/store/reducers/itemsReducer';
+import { editItem } from '@/store/reducers/containersReducer';
 
 interface EditItemModalProps {
   showModal: boolean;
