@@ -1,19 +1,28 @@
+
 import { UniqueIdentifier } from '@dnd-kit/core';
+import { Dispatch, SetStateAction } from 'react';
+
 import { useSortable } from '@dnd-kit/sortable';
 import React from 'react';
 import { CSS } from '@dnd-kit/utilities';
 import clsx from 'clsx';
 
-import { Grip } from 'lucide-react';
+import { Grip, Trash } from 'lucide-react';
 import { Checkbox } from '../ui/checkbox';
+
+import { Button } from '../ui/button';
+import { Pencil } from 'lucide-react';
 
 type ItemsType = {
   id: UniqueIdentifier;
   title: string;
   category: string;
+  setShowEditItemModal: Dispatch<SetStateAction<boolean>>;
+  handleEditItem: (id: string, title: string, category: string) => void;
+  handleDeleteItem: (id: string) => void;
 };
 
-const Items = ({ id, title, category }: ItemsType) => {
+const Items = ({ id, title, category, setShowEditItemModal, handleEditItem, handleDeleteItem}: ItemsType) => {
 
   const categoryClass = {
     Low: ' bg-yellow-500',
@@ -50,6 +59,15 @@ const Items = ({ id, title, category }: ItemsType) => {
     >
       <div className="flex items-center justify-between">
         {title}
+        <Button variant="ghost" className='p-1' onClick={() => {
+          handleEditItem(String(id), title, category);
+          setShowEditItemModal(true);
+        }}>
+          <Pencil size={16} />
+        </Button>
+        <Button variant="ghost" className='p-1' onClick={() => handleDeleteItem(String(id)) }>
+            <Trash size={16} />
+          </Button>
         <button
           className="border p-2 text-xs rounded-xl shadow-lg hover:shadow-xl"
           {...listeners}
