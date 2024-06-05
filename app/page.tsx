@@ -71,6 +71,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Input } from '@/components/ui/input';
+import { ArrowDownUp, CirclePlus, Search } from 'lucide-react';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -300,7 +301,7 @@ export default function Home() {
 
 
   return (
-    <div className="mx-auto max-w-7xl py-10 ">
+    <div className="mx-auto max-w-7xl py-10 overflow-y-visible">
       {/* Add Container Modal */}
       <Modal
         showModal={showAddContainerModal}
@@ -390,14 +391,53 @@ export default function Home() {
         </div>
       </Modal>
 
-      <div className="flex items-center justify-between gap-y-2">
-        <h1 className="text-gray-800 text-3xl font-bold">Your Kanban</h1>
+      <div className=' my-3'>
+        <h1 className="text-gray-800 text-3xl font-bold">Kraftbase Kanban</h1>
+      </div>
+
+      <div className="flex items-center justify-between gap-y-2 mt-5">
+        {/* <h1 className="text-gray-800 text-3xl font-bold">Your Kanban</h1> */}
+        <div className=' flex gap-3'>
+          <div className=' relative'>
+            <Search size={20} className="absolute right-2 top-2 text-gray-400" />
+            
+            <Input
+              type="text"
+              placeholder="Search for items..."
+              className="border-2 p-2 w-full rounded-lg shadow hover:shadow-xl"
+            />
+          </div>
+          <Button variant="outline" className='shadow rounded-lg border-double'>
+            <ArrowDownUp size={17} className="mr-2" />
+            Sort By
+          </Button>
+          <Button variant="outline" className='shadow rounded-lg border-dashed'>
+            <CirclePlus size={20} className="mr-2" />
+            Assigned To
+          </Button>
+          <Button variant="outline" className='shadow rounded-lg border-dashed'>
+            <CirclePlus size={20} className="mr-2" />
+            Severity
+          </Button>
+          <Button variant="outline" className='shadow rounded-lg border-dashed'>
+            <CirclePlus size={20} className="mr-2" />
+            Status
+          </Button>
+          <Button variant="outline" className='shadow rounded-lg border-dashed'>
+            <CirclePlus size={20} className="mr-2" />
+            Pentest
+          </Button>
+          <Button variant="outline" className='shadow rounded-lg border-dashed'>
+            <CirclePlus size={20} className="mr-2" />
+            Target
+          </Button>
+        </div>
         <Button onClick={() => setShowAddContainerModal(true)}>
           Add Container
         </Button>
       </div>
       <div className="mt-10">
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-4 gap-7">
           <DndContext
             sensors={sensors}
             collisionDetection={closestCorners}
