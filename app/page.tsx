@@ -72,6 +72,7 @@ import {
 } from "@/components/ui/select"
 import { Input } from '@/components/ui/input';
 import { ArrowDownUp, CirclePlus, Search } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -86,6 +87,8 @@ type DNDType = {
 };
 
 export default function Home() {
+
+  const router = useRouter();
 
   const dispatch = useDispatch();
   const containers = useSelector((state: RootState) => state.containers);
@@ -299,6 +302,10 @@ export default function Home() {
     dispatch(deleteItem(id));
   };
 
+  const logout = () => {
+    router.push('/auth');
+  }
+
 
   return (
     <div className="mx-auto max-w-7xl py-10 overflow-y-visible">
@@ -434,6 +441,9 @@ export default function Home() {
         </div>
         <Button onClick={() => setShowAddContainerModal(true)}>
           Add Container
+        </Button>
+        <Button className='bg-red-600' onClick={logout}>
+          Logout
         </Button>
       </div>
       <div className="mt-10">
