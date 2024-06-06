@@ -162,12 +162,18 @@ const Items = ({ id, title, category, setShowEditItemModal, handleEditItem, hand
 
       
       {category && 
-      <div className={clsx('rounded-3xl p-1 w-[30%] items-center justify-center text-center mt-3 shadow-xl', categoryClass)}>
-       <span className={` text-white font-normal text-sm`}>{category}</span>
+      <div className=" flex gap-4">
+        <div className={clsx('rounded-3xl p-1 w-[30%] items-center justify-center text-center mt-3 shadow-xl', categoryClass)}>
+          <span className={` text-white font-normal text-sm`}>{category}</span>
+        </div>
+        <div className=" flex  mt-3">
+          <Image src="/loader.png" alt="er" width={33} height={33} className=" rounded-full"/>
+          <p className=" text-sm mt-2 font-medium">8.8</p>
+        </div>
       </div>}
 
       {category && 
-      <div className=' absolute right-4 bottom-4'>
+      <div className=' absolute right-3 bottom-4'>
         {/* <Checkbox className="mt-2"/> */}
         {!showImage && <BadgeCheck className="mt-2 cursor-pointer" color={badgeColor} onClick={toggleBadgeColor} />}
         {showImage && <Image src="/badge-check.png" alt="error" width={24} height={24} onClick={toggleBadgeColor} />}
