@@ -13,7 +13,11 @@ const initialState = {
         return { ...state, user: action.payload };
       case 'LOGIN_ERROR':
         return { ...state, error: 'Invalid credentials' };
-      default:
+      
+      case 'LOGOUT_USER':
+        return { ...state, user: null };
+      
+        default:
         return state;
     }
   };

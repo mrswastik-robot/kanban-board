@@ -16,6 +16,7 @@ import
   addItem,
   deleteItem } 
 from '@/store/reducers/containersReducer';
+import { logoutUser } from '@/store/actions/authActions';
 // import { deleteItem, } from '@/store/reducers/itemsReducer';
 import EditContainerModal from '@/components/EditContainerModal';
 import EditItemModal from '@/components/EditItemModal';
@@ -73,6 +74,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { ArrowDownUp, CirclePlus, Search } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { AppDispatch } from '@/store/store';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -90,7 +92,7 @@ export default function Home() {
 
   const router = useRouter();
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const containers = useSelector((state: RootState) => state.containers);
   const items = useSelector((state: RootState) => state.items);
 
@@ -303,6 +305,7 @@ export default function Home() {
   };
 
   const logout = () => {
+    dispatch(logoutUser());
     router.push('/auth');
   }
 
